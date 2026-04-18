@@ -1,0 +1,38 @@
+{% from "bootstrap5/form.html" import render_form %} {% block content %}
+{% include "header.html" %}
+
+<!-- Page Header -->
+<header
+  class="masthead"
+  style="background-image: url('../static/assets/img/login-bg.jpg')"
+>
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="page-heading">
+          <h1>Contact Messages</h1>
+          <!-- <span class="subheading">Welcome Back!</span> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div>
+    {% for msg in messages %}
+    <div class="message">
+        <strong>{{ msg.name }}</strong> ({{ msg.email }})<br>
+        {% if msg.phone %}📞 {{ msg.phone }}<br>{% endif %}
+        <span class="smart-time"
+              data-time="{{ msg.sent_at.isoformat() }}"
+              title="{{ msg.sent_at.strftime('%b %d, %Y %I:%M %p') }}">
+      <small>{{ msg.sent_at }}</small>
+        </span>
+        <p>{{ msg.message }}</p>
+        <hr>
+    </div>
+    {% endfor %}
+</div>
+
+{% include "footer.html" %}
+{% endblock %}

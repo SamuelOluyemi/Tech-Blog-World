@@ -1,0 +1,55 @@
+{% from "bootstrap5/form.html" import render_form %} {% block content %}
+{% include "header.html" %}
+
+<!-- Page Header -->
+<header
+  class="masthead"
+  style="background-image: url('../static/assets/img/login-bg.jpg')"
+>
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="page-heading">
+          <h1>Deleted Posts</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+{% for post in posts %}
+  <h3>{{ post.title }}</h3>
+  <form method="POST", action="{{url_for('restore_post_route', id=post.id) }}">
+      {{restore_post_form.hidden_tag()}}
+      <button type="submit" class="btn btn-success btn-sm">
+      Restore
+  </button>
+  </form>
+
+  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+    Permanently Delete
+  </button>
+  <!-- Bootstrap Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="POST" action="{{ url_for('force_delete_post', id=post.id) }}">
+          {{ form.hidden_tag() }}
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Confirm Force Delete</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to delete the post "<strong>{{ post.title }}</strong>"? This action cannot be undone.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+{% include "footer.html" %}
+{% endblock %}

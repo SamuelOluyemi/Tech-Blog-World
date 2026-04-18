@@ -1,0 +1,21 @@
+Bootstrap_Flask
+Flask_CKEditor
+Flask_Login
+Flask-Gravatar
+Flask_WTF
+WTForms
+Werkzeug
+flask_sqlalchemy
+SQLAlchemy
+Flask-Migrate
+gunicorn
+psycopg2-binary
+SQL
+cs50
+Flask
+Flask-Session
+pytz
+requests
+flask_mail
+markdown
+# "pip install -r requirements.txt" in the CLI
