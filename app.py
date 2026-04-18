@@ -36,11 +36,42 @@ DT = datetime.now(timezone.utc)
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('FLASK_KEY') #as it's named in the .env file as FLASK_KEY
 
+# to unify all conifg
+class BaseConfig:
+    SECRET_KEY = os.getenv("FLASK_KEY")
+    SQLALCHEMY_DATABASE_URI = os.getenv("DB_URI", "sqlite:///posts.db")
+
+    # CKEditor
+    CKEDITOR_PKG_TYPE = "standard"
+
+    # Sessions
+    SESSION_PERMANENT = False
+    SESSION_TYPE = "filesystem"
+    PERMANENT_SESSION_LIFETIME = timedelta(minutes=30)
+
+    # Mail
+    MAIL_SERVER = "smtp.gmail.com"
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = "sotcode2025@gmail.com"
+    MAIL_PASSWORD = os.getenv("GMAIL_APP_PW")
+    MAIL_DEFAULT_SENDER = "sotcode2025@gmail.com"
+
+class DevConfig(BaseConfig):
+    DEBUG = True
+    
+class ProdConfig(BaseConfig):
+    DEBUG = False
+    
+app.config.from_object(DevConfig)
+if not app.config["SECRET_KEY"]:
+    raise ValueError("FLASK_KEY is missing. Set it in .env or environment variables.")
+if not app.config["SQLALCHEMY_DATABASE_URI"]:
+    raise ValueError("DB_URI is missing. Set it in .env or environment variables.")
 
 # Configure CKEditor
-app.config['CKEDITOR_PKG_TYPE'] = 'standard'
+# app.config['CKEDITOR_PKG_TYPE'] = 'standard'
 ckeditor = CKEditor(app)
 # Configure CSRF
 csrf = CSRFProtect()
@@ -48,20 +79,20 @@ csrf.init_app(app)
 
 Bootstrap5(app)
 # Configure Flask_Session to use filesystem (instead of signed cookies)
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
-app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=30)
+# app.config["SESSION_PERMANENT"] = False
+# app.config["SESSION_TYPE"] = "filesystem"
+# app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=30)
 Session(app)
 
 # configure flask_mail
-app.config.update(
-    MAIL_SERVER="smtp.gmail.com",
-    MAIL_PORT=587,
-    MAIL_USE_TLS=True,
-    MAIL_USERNAME="sotcode2025@gmail.com",
-    MAIL_PASSWORD= os.environ.get('GMAIL_APP_PW'),
-    MAIL_DEFAULT_SENDER="sotcode2025@gmail.com"
-)
+# app.config.update(
+#     MAIL_SERVER="smtp.gmail.com",
+#     MAIL_PORT=587,
+#     MAIL_USE_TLS=True,
+#     MAIL_USERNAME="sotcode2025@gmail.com",
+#     MAIL_PASSWORD= os.environ.get('GMAIL_APP_PW'),
+#     MAIL_DEFAULT_SENDER="sotcode2025@gmail.com"
+# )
 mail = Mail(app)
 
 # TODO: Configure Flask-Login
@@ -105,7 +136,7 @@ def load_user(user_id):
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///posts.db")
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///posts.db")
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 

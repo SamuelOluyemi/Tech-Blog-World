@@ -26,3 +26,11 @@ USER appuser
 EXPOSE 8000
 
 CMD ["gunicorn", "app:app", "--bind=0.0.0.0:8000"]
+
+# To build the image, run:
+    # docker compose up --build
+    # recreate by running:
+    # docker compose up
+# docker build -t tech-blog-world:latest . 
+# To run the container, run:
+# docker run -d -p 8000:8000 --env-file .env --
