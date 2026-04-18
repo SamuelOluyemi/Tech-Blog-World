@@ -5,7 +5,7 @@ from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor, CKEditorField
 # Using markdown to correct the issue with CKEditorField
 import markdown
-from flask_gravatar import Gravatar
+# from flask_gravatar import Gravatar
 from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
@@ -38,6 +38,7 @@ DT = datetime.now(timezone.utc)
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('FLASK_KEY') #as it's named in the .env file as FLASK_KEY
 
+
 # Configure CKEditor
 app.config['CKEDITOR_PKG_TYPE'] = 'standard'
 ckeditor = CKEditor(app)
@@ -67,19 +68,33 @@ mail = Mail(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-# Configure Gravatar for adding profile avatar
-gravatar = Gravatar(
-    app,
-    size=100,
-    rating="g",
-    default="retro",
-    force_default=False,
-    force_lower=False,
-    use_ssl=True,
-    base_url=None,
-)
-# gravatar = Gravatar()
-# gravatar.init_app(app)
+# # Configure Gravatar for adding profile avatar
+# gravatar = Gravatar(
+#     app,
+#     size=100,
+#     rating="g",
+#     default="retro",
+#     force_default=False,
+#     force_lower=False,
+#     use_ssl=True,
+#     base_url=None,
+# )
+# # gravatar = Gravatar()
+# # gravatar.init_app(app)
+
+#  To replace flask_gravatar with custom gravatar function
+
+
+import hashlib
+
+def gravatar_url(email, size=100):
+    email = email.strip().lower().encode("utf-8")
+    hash = hashlib.md5(email).hexdigest()
+    return f"https://www.gravatar.com/avatar/{hash}?s={size}&d=retro"
+
+# make gravatar available
+app.jinja_env.globals["gravatar_url"] = gravatar_url
+
 
 # Create a user_loader callback
 @login_manager.user_loader

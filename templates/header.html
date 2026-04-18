@@ -111,7 +111,7 @@
             {% if current_user.is_authenticated: %}
             <div class="profile-menu">
               <button onclick="toggleProfileMenu()" class="profile-btn">
-                <img src="{{ current_user.email | gravatar(size=36) }}" alt="User avatar" class="avatar">
+                <img src="{{ current_user.email | gravatar_url(size=36) }}" alt="User avatar" class="avatar">
               </button>
 
               <div id="profileDropdown" class="profile-dropdown">

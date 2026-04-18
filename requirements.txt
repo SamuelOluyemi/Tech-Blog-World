@@ -1,7 +1,7 @@
 Bootstrap_Flask
 Flask_CKEditor
 Flask_Login
-Flask-Gravatar
+# Flask-Gravatar
 Flask_WTF
 WTForms
 Werkzeug
@@ -18,4 +18,7 @@ pytz
 requests
 flask_mail
 markdown
+bleach
+python-dotenv
 # "pip install -r requirements.txt" in the CLI
+# flask run in the CLI to run the app"
