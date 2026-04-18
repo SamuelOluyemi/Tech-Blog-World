@@ -1,12 +1,14 @@
 # Tech Blog World
 
-## This isa CS50 course project
+## This is a CS50 course project
+
+## The deployed website is ("[here](https://tech-blog-world.onrender.com)) using Render
 
 ## Description
 
 > [!IMPORTANT] </br>
 > Admin email and password are env data. You might want to create a standard user or use the example user below to access the blog website</br>
-> Example user can be created or use email = foo@example.com | password = Security1\_
+> Example user can be created or use email = foo@example.com | password = Security1_
 
 ### Templates
 
