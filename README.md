@@ -2,7 +2,7 @@
 
 ## This is a CS50 course project
 
-## The deployed website is ("[here](https://tech-blog-world.onrender.com)) using Render
+## The deployed website is ([here](https://tech-blog-world.onrender.com)) using Render
 
 ## Description
 
