@@ -118,13 +118,18 @@ login_manager.init_app(app)
 
 import hashlib
 
+# We're using decorator to make the gravatar_url function available as a filter in Jinja templates. This was we don't have to declare it like below in jinja_env after the function.
+@app.template_filter("gravatar_url")
 def gravatar_url(email, size=100):
     email = email.strip().lower().encode("utf-8")
     hash = hashlib.md5(email).hexdigest()
     return f"https://www.gravatar.com/avatar/{hash}?s={size}&d=retro"
 
-# make gravatar available
-app.jinja_env.globals["gravatar_url"] = gravatar_url
+# # make gravatar available
+# app.jinja_env.globals["gravatar_url"] = gravatar_url
+# # Above globals usage,if we were using gravatar_url(current_user.email, size=36) in the template(HTML). Otherwise, we use it as a filter pipe as shown below:
+# # To this:
+# app.jinja_env.filters["gravatar_url"] = gravatar_url
 
 
 # Create a user_loader callback
